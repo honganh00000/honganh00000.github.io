@@ -67,15 +67,14 @@
 
     .heart {
         position: absolute;
-        font-size: 24px;
-        color: red;
-        animation: floatUp 1s forwards;
+        animation: floatUp 1.5s forwards;
         pointer-events: none;
     }
 
     @keyframes floatUp {
-        0% { opacity: 1; transform: translateY(0) scale(1); }
-        100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
+        0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-70px) rotate(15deg); }
+        100% { opacity: 0; transform: translateY(-150px) rotate(360deg); }
     }
 </style>
 </head>
@@ -83,7 +82,7 @@
 
 <div class="card" id="card">
     <h1>Yêu Nhy đần</h1>
-    <img src="imagine/anh.jpg.jpg" class="avatar">
+    <img src="imagine/anh.jpg" class="avatar">
     <p>nhiều vcl</p>
     <button id="likeBtn">timmm</button>
 </div>
@@ -91,22 +90,32 @@
 <script>
     const button = document.getElementById('likeBtn');
     const card = document.getElementById('card');
+    const colors = ['#ff4d6d', '#ff6b81', '#ff9f43']; // đỏ, hồng, cam
 
     button.addEventListener('click', () => {
         // Rung card
         card.classList.add('shake');
         setTimeout(() => card.classList.remove('shake'), 300);
 
-        // Tạo 5 trái tim bay lên
-        for (let i = 0; i < 5; i++) {
+        // Tạo 10 trái tim lung linh
+        for (let i = 0; i < 10; i++) {
             const heart = document.createElement('div');
             heart.className = 'heart';
             heart.textContent = '❤️';
+            const size = Math.random() * 20 + 20; // 20px - 40px
+            heart.style.fontSize = size + 'px';
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+
             // Vị trí xuất phát gần nút
             const rect = button.getBoundingClientRect();
             heart.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + 'px';
             heart.style.top = rect.top + window.scrollY - 20 + 'px';
+
             document.body.appendChild(heart);
+
+            // Random animation duration & delay
+            heart.style.animationDuration = (1 + Math.random()) + 's';
+            heart.style.animationDelay = (Math.random()*0.3) + 's';
 
             // Xóa trái tim sau animation
             heart.addEventListener('animationend', () => heart.remove());
