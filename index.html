@@ -97,19 +97,22 @@
         card.classList.add('shake');
         setTimeout(() => card.classList.remove('shake'), 300);
 
-        // Tạo 1 trái tim bay lên
+        // Tạo 5 trái tim bay lên
         for (let i = 0; i < 5; i++) {
             const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = '❤️';
-            // Vị trí xuất phát gần nút
-            const rect = button.getBoundingClientRect();
-            heart.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + 'px';
-            heart.style.top = rect.top + window.scrollY - 20 + 'px';
-            document.body.appendChild(heart);
+heart.className = 'heart';
+heart.textContent = '❤️';
 
-            // Xóa trái tim sau animation
-            heart.addEventListener('animationend', () => heart.remove());
+// vị trí xuất phát gần nút
+const rect = button.getBoundingClientRect();
+heart.style.left = rect.left + rect.width/2 + 'px';
+heart.style.top = rect.top + window.scrollY - 20 + 'px';
+
+document.body.appendChild(heart);
+
+// Xóa trái tim sau animation
+heart.addEventListener('animationend', () => heart.remove());
+
         }
     });
 </script>
@@ -117,3 +120,4 @@
 </body>
 
 </html>
+
