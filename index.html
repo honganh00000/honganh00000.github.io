@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>HongAnhĐần</title>
-
-  <style>
+<meta charset="UTF-8">
+<title>HongAnhĐần</title>
+<style>
     body {
         margin: 0;
         font-family: Arial, sans-serif;
@@ -14,6 +13,7 @@
         justify-content: center;
         align-items: center;
         color: white;
+        overflow: hidden;
     }
 
     .card {
@@ -23,6 +23,19 @@
         text-align: center;
         backdrop-filter: blur(10px);
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.1s;
+    }
+
+    .card.shake {
+        animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
     }
 
     .avatar {
@@ -44,23 +57,62 @@
         background: white;
         color: #764ba2;
         font-weight: bold;
+        position: relative;
+        z-index: 1;
     }
 
     button:hover {
         background: #f0f0f0;
     }
-</style>
 
+    .heart {
+        position: absolute;
+        font-size: 24px;
+        color: red;
+        animation: floatUp 1s forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        0% { opacity: 1; transform: translateY(0) scale(1); }
+        100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
+    }
+</style>
+</head>
 <body>
 
-    <div class="card">
-        <h1>Yêu Nhy đần</h1>
-        <img src="imagine/anh.jpg.jpg" class="avatar">
+<div class="card" id="card">
+    <h1>Yêu Nhy đần</h1>
+    <img src="imagine/anh.jpg.jpg" class="avatar">
+    <p>nhiều vcl</p>
+    <button id="likeBtn">timmm</button>
+</div>
 
+<script>
+    const button = document.getElementById('likeBtn');
+    const card = document.getElementById('card');
 
-        <p>nhiều vcl</p>
-        <button>timmm</button>
-    </div>
+    button.addEventListener('click', () => {
+        // Rung card
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 300);
+
+        // Tạo 5 trái tim bay lên
+        for (let i = 0; i < 5; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤️';
+            // Vị trí xuất phát gần nút
+            const rect = button.getBoundingClientRect();
+            heart.style.left = rect.left + rect.width/2 + (Math.random()*40-20) + 'px';
+            heart.style.top = rect.top + window.scrollY - 20 + 'px';
+            document.body.appendChild(heart);
+
+            // Xóa trái tim sau animation
+            heart.addEventListener('animationend', () => heart.remove());
+        }
+    });
+</script>
 
 </body>
 </html>
